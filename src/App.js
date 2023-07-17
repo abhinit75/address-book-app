@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import api from "./api";
 import PersonList from "./components/PersonList";
 import PersonDetails from "./components/PersonDetails";
+import Header from "./components/Header";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -33,6 +34,7 @@ const App = () => {
 
   return (
     <Router>
+      <Header />
       <Routes>
         <Route
           path="/person/:id"
