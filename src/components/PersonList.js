@@ -2,59 +2,42 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const PersonList = ({ persons }) => {
-  const [search, setSearch] = useState({
-    query: "",
-    list: [],
-  });
-
-  // Declare countries inside the component and update it with useEffect
+  const [search, setSearch] = useState("");
+  const [filteredPersons, setFilteredPersons] = useState([]);
   const [countries, setCountries] = useState([]);
+  const [filter, setFilter] = useState("All");
+
+  // use Effect is triggered everytime either the persons list, search criteria or filter selection changes
 
   useEffect(() => {
-    setSearch((prevSearch) => ({ ...prevSearch, list: persons }));
-    setFilter((prevSearch) => ({ ...prevSearch, country: "All" }));
+    let filteredUsers = persons;
+
+    // Apply country filter
+    if (filter !== "All") {
+      filteredUsers = filteredUsers.filter(
+        (person) =>
+          person.location.country.toLowerCase() === filter.toLowerCase()
+      );
+    }
+
+    // Apply search filter
+    if (search) {
+      filteredUsers = filteredUsers.filter((person) =>
+        `${person.name.first} ${person.name.last}`
+          .toLowerCase()
+          .includes(search.toLowerCase())
+      );
+    }
+
+    setFilteredPersons(filteredUsers);
+  }, [persons, search, filter]);
+
+  useEffect(() => {
     const uniqueCountries = [
       ...new Set(persons.map((person) => person.location.country)),
     ];
     setCountries(uniqueCountries);
   }, [persons]);
-
-  // handle the search bar functionality
-  const handleChange = (e) => {
-    const filteredUsers = persons.filter((person) =>
-      `${person.name.first} ${person.name.last}`
-        .toLowerCase()
-        .includes(e.target.value.toLowerCase())
-    );
-    setSearch({
-      query: e.target.value,
-      list: filteredUsers,
-    });
-  };
-
-  // Handling the filter panel
-  const [filter, setFilter] = useState({
-    country: "All",
-  });
-
-  const handleFilterChange = (e) => {
-    let filteredUsers;
-
-    if (e.target.value === "All") {
-      filteredUsers = persons;
-    } else {
-      filteredUsers = persons.filter(
-        (person) =>
-          person.location.country.toLowerCase() === e.target.value.toLowerCase()
-      );
-    }
-
-    setFilter({
-      ...filter,
-      [e.target.name]: e.target.value,
-    });
-    setSearch({ query: "", list: filteredUsers });
-  };
 
   return (
     <div className="flex">
@@ -68,11 +51,13 @@ const PersonList = ({ persons }) => {
             name="country"
             id="country"
             className="w-full p-2"
-            onChange={handleFilterChange}
+            onChange={(e) => setFilter(e.target.value)}
           >
             <option value="All">All</option>
-            {countries.map((country) => (
-              <option value={country.toLowerCase()}>{country}</option>
+            {countries.map((country, index) => (
+              <option key={index} value={country.toLowerCase()}>
+                {country}
+              </option>
             ))}
           </select>
         </div>
@@ -83,37 +68,40 @@ const PersonList = ({ persons }) => {
             className="border rounded w-full py-2 px-3 text-grey-darker mb-4"
             type="text"
             placeholder="Search by name..."
-            value={search.query}
-            onChange={handleChange}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
-          <ul role="list" class="divide-y divide-gray-100 w-full">
-            {search.list.map((person, index) => (
+          <div className="text-gray-600 mb-4">
+            Contacts: {filteredPersons.length}
+          </div>
+          <ul role="list" className="divide-y divide-gray-100 w-full">
+            {filteredPersons.map((person, index) => (
               <Link
                 key={index}
                 to={`/person/${index}`}
                 className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2"
               >
-                <li class="flex justify-between gap-x-6 py-5 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer p-4">
-                  <div class="flex gap-x-4">
+                <li className="flex justify-between gap-x-6 py-5 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer p-4">
+                  <div className="flex gap-x-4">
                     <img
-                      class="h-12 w-12 flex-none rounded-full bg-gray-50"
+                      className="h-12 w-12 flex-none rounded-full bg-gray-50"
                       src={person.picture.large}
                       alt={`${person.name.first} ${person.name.last}`}
                     />
-                    <div class="min-w-0 flex-auto">
-                      <p class="text-sm font-semibold leading-6 text-gray-900">
+                    <div className="min-w-0 flex-auto">
+                      <p className="text-sm font-semibold leading-6 text-gray-900">
                         {`${person.name.first} ${person.name.last}`}
                       </p>
-                      <p class="mt-1 truncate text-xs leading-5 text-gray-500">
+                      <p className="mt-1 truncate text-xs leading-5 text-gray-500">
                         {person.email}
                       </p>
                     </div>
                   </div>
-                  <div class="hidden sm:flex sm:flex-col sm:items-end">
-                    <p class="text-sm leading-6 text-gray-900">
+                  <div className="hidden sm:flex sm:flex-col sm:items-end">
+                    <p className="text-sm leading-6 text-gray-900">
                       {person.gender}
                     </p>
-                    <p class="mt-1 text-xs leading-5 text-gray-500">
+                    <p className="mt-1 text-xs leading-5 text-gray-500">
                       Age: {person.dob.age}
                     </p>
                   </div>
@@ -121,27 +109,6 @@ const PersonList = ({ persons }) => {
               </Link>
             ))}
           </ul>
-          {/* {search.list.map((person, index) => (
-            <Link
-              key={index}
-              to={`/person/${index}`}
-              className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2"
-            >
-              <div className="border rounded shadow hover:shadow-lg transition duration-200 ease-in-out">
-                <img
-                  className="w-64 h-64 object-cover"
-                  src={person.picture.large}
-                  alt={`${person.name.first} ${person.name.last}`}
-                />
-                <div className="p-4">
-                  <h2 className="text-xl">{`${person.name.first} ${person.name.last}`}</h2>
-                  <p className="text-gray-500 text-xs truncate ...">
-                    {person.email}
-                  </p>
-                </div>
-              </div>
-            </Link>
-          ))} */}
         </div>
       </div>
     </div>
