@@ -10,9 +10,7 @@ const PersonList = React.memo(({ persons }) => {
 
   // use Effect is triggered everytime either the persons list, search criteria or filter selection changes
   useEffect(() => {
-    console.log(persons);
     let filteredUsers = Object.values(persons);
-    console.log(filteredUsers);
 
     // Apply country filter
     if (filter !== "All") {

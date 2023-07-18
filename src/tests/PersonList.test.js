@@ -4,22 +4,26 @@ import PersonList from "../components/PersonList";
 import "@testing-library/jest-dom";
 
 describe("PersonList", () => {
-  const mockPersons = [
-    {
-      name: { first: "John", last: "Doe" },
-      email: "john.doe@example.com",
-      dob: { age: 30 },
-      picture: { large: "https://randomuser.me/api/portraits/men/75.jpg" },
-      location: { country: "United States" },
-    },
-    {
+  const mockPersons = {
+    1: {
       name: { first: "Jane", last: "Doe" },
+      location: { country: "United States" },
       email: "jane.doe@example.com",
+      login: { uuid: "1" },
       dob: { age: 25 },
       picture: { large: "https://randomuser.me/api/portraits/women/75.jpg" },
-      location: { country: "Canada" },
+      id: "1",
     },
-  ];
+    2: {
+      name: { first: "John", last: "Doe" },
+      location: { country: "Canada" },
+      email: "john.doe@example.com",
+      login: { uuid: "2" },
+      dob: { age: 30 },
+      picture: { large: "https://randomuser.me/api/portraits/men/75.jpg" },
+      id: "2",
+    },
+  };
 
   beforeEach(() => {
     render(
@@ -31,7 +35,7 @@ describe("PersonList", () => {
 
   it("renders persons", async () => {
     const listItems = await screen.findAllByRole("listitem");
-    expect(listItems).toHaveLength(mockPersons.length);
+    expect(listItems).toHaveLength(Object.keys(mockPersons).length);
   });
 
   it("filters by country", async () => {
