@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import api from "./api";
+import api from "./server/api";
 import PersonList from "./components/PersonList";
 import PersonDetails from "./components/PersonDetails";
 import Header from "./components/Header";
@@ -8,7 +8,6 @@ import Header from "./components/Header";
 const App = () => {
   const [persons, setPersons] = useState([]);
   const localData = localStorage.getItem("persons");
-  console.log(localData);
 
   useEffect(() => {
     const fetchPersons = async () => {
