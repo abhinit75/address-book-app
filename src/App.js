@@ -7,24 +7,33 @@ import Header from "./components/Header";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const localData = localStorage.getItem("persons");
 
   useEffect(() => {
     const fetchPersons = async () => {
+      setLoading(true);
       if (localData) {
         setPersons(JSON.parse(localData));
+        setLoading(false);
       } else {
         try {
           const response = await api.get("?results=100");
           setPersons(response.data.results);
+          setLoading(false);
         } catch (err) {
-          console.error(err);
+          setError(err);
+          setLoading(false);
         }
       }
     };
 
     fetchPersons();
   }, [localData]);
+
+  if (loading) return <div>Loading...</div>; // replace with a loading animation
+  if (error) return <div>Error: {error.message}</div>; // replace with a error component
 
   const clearData = () => {
     localStorage.removeItem("persons");

@@ -2,8 +2,9 @@ import { useParams } from "react-router-dom";
 import { BsFillPersonFill } from "react-icons/bs";
 import { FaPhoneAlt, FaEnvelope } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
+import React from "react";
 
-const PersonDetails = ({ persons }) => {
+const PersonDetails = React.memo(({ persons }) => {
   const { id } = useParams();
   const person = persons[id];
 
@@ -42,6 +43,6 @@ const PersonDetails = ({ persons }) => {
       </div>
     </div>
   );
-};
+});
 
 export default PersonDetails;

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import React from "react";
 
-const PersonList = ({ persons }) => {
+const PersonList = React.memo(({ persons }) => {
   const [search, setSearch] = useState("");
   const [filteredPersons, setFilteredPersons] = useState([]);
   const [countries, setCountries] = useState([]);
@@ -113,6 +114,6 @@ const PersonList = ({ persons }) => {
       </div>
     </div>
   );
-};
+});
 
 export default PersonList;
