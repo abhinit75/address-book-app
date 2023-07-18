@@ -74,7 +74,6 @@ const PersonList = ({ persons }) => {
             {countries.map((country) => (
               <option value={country.toLowerCase()}>{country}</option>
             ))}
-            {/* Add other country options here */}
           </select>
         </div>
       </div>
@@ -87,7 +86,42 @@ const PersonList = ({ persons }) => {
             value={search.query}
             onChange={handleChange}
           />
-          {search.list.map((person, index) => (
+          <ul role="list" class="divide-y divide-gray-100 w-full">
+            {search.list.map((person, index) => (
+              <Link
+                key={index}
+                to={`/person/${index}`}
+                className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2"
+              >
+                <li class="flex justify-between gap-x-6 py-5 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer p-4">
+                  <div class="flex gap-x-4">
+                    <img
+                      class="h-12 w-12 flex-none rounded-full bg-gray-50"
+                      src={person.picture.large}
+                      alt={`${person.name.first} ${person.name.last}`}
+                    />
+                    <div class="min-w-0 flex-auto">
+                      <p class="text-sm font-semibold leading-6 text-gray-900">
+                        {`${person.name.first} ${person.name.last}`}
+                      </p>
+                      <p class="mt-1 truncate text-xs leading-5 text-gray-500">
+                        {person.email}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="hidden sm:flex sm:flex-col sm:items-end">
+                    <p class="text-sm leading-6 text-gray-900">
+                      {person.gender}
+                    </p>
+                    <p class="mt-1 text-xs leading-5 text-gray-500">
+                      Age: {person.dob.age}
+                    </p>
+                  </div>
+                </li>
+              </Link>
+            ))}
+          </ul>
+          {/* {search.list.map((person, index) => (
             <Link
               key={index}
               to={`/person/${index}`}
@@ -107,7 +141,7 @@ const PersonList = ({ persons }) => {
                 </div>
               </div>
             </Link>
-          ))}
+          ))} */}
         </div>
       </div>
     </div>
