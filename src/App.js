@@ -4,6 +4,7 @@ import api from "./server/api";
 import PersonList from "./components/PersonList";
 import PersonDetails from "./components/PersonDetails";
 import Header from "./components/Header";
+import { v4 as uuidv4 } from "uuid";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -20,7 +21,19 @@ const App = () => {
       } else {
         try {
           const response = await api.get("?results=100");
-          setPersons(response.data.results);
+          const personsWithId = await response.data.results.map((person) => ({
+            ...person,
+            id: uuidv4(),
+          }));
+          console.log("ADDED IDS");
+          console.log(personsWithId);
+          const personsMap = await personsWithId.reduce((map, person) => {
+            map[person.id] = person;
+            return map;
+          }, {});
+          console.log("THIS IS THE MAP");
+          console.log(personsMap);
+          setPersons(personsMap);
           setLoading(false);
         } catch (err) {
           setError(err);

@@ -4,13 +4,15 @@ import React from "react";
 
 const PersonList = React.memo(({ persons }) => {
   const [search, setSearch] = useState("");
-  const [filteredPersons, setFilteredPersons] = useState([]);
+  const [filteredPersons, setFilteredPersons] = useState({});
   const [countries, setCountries] = useState([]);
   const [filter, setFilter] = useState("All");
 
   // use Effect is triggered everytime either the persons list, search criteria or filter selection changes
   useEffect(() => {
-    let filteredUsers = persons;
+    console.log(persons);
+    let filteredUsers = Object.values(persons);
+    console.log(filteredUsers);
 
     // Apply country filter
     if (filter !== "All") {
@@ -29,12 +31,19 @@ const PersonList = React.memo(({ persons }) => {
       );
     }
 
-    setFilteredPersons(filteredUsers);
+    const filteredUsersObj = {};
+    filteredUsers.forEach((user) => {
+      filteredUsersObj[user.id] = user;
+    });
+
+    setFilteredPersons(filteredUsersObj);
   }, [persons, search, filter]);
 
   useEffect(() => {
     const uniqueCountries = [
-      ...new Set(persons.map((person) => person.location.country)),
+      ...new Set(
+        Object.values(persons).map((person) => person.location.country)
+      ),
     ];
     setCountries(uniqueCountries);
   }, [persons]);
@@ -42,7 +51,7 @@ const PersonList = React.memo(({ persons }) => {
   return (
     <div className="flex">
       <div className="w-1/4 min-h-screen p-4 bg-gray-200">
-        <h2 className="font-bold mb-4">Filters</h2>
+        <h2 className="mb-4 font-bold">Filters</h2>
         <div className="mb-4">
           <label htmlFor="country" className="block mb-2">
             Country
@@ -65,34 +74,34 @@ const PersonList = React.memo(({ persons }) => {
       <div className="w-3/4 p-4">
         <div className="flex flex-wrap p-4">
           <input
-            className="border rounded w-full py-2 px-3 text-grey-darker mb-4"
+            className="w-full px-3 py-2 mb-4 border rounded text-grey-darker"
             type="text"
             placeholder="Search by name..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <div className="text-gray-600 mb-4">
-            Contacts: {filteredPersons.length}
+          <div className="mb-4 text-gray-600">
+            Contacts: {Object.keys(filteredPersons).length}
           </div>
-          <ul role="list" className="divide-y divide-gray-100 w-full">
-            {filteredPersons.map((person, index) => (
+          <ul role="list" className="w-full divide-y divide-gray-100">
+            {Object.values(filteredPersons).map((person) => (
               <Link
-                key={index}
-                to={`/person/${index}`}
-                className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2"
+                key={person.id}
+                to={`/person/${person.id}`}
+                className="w-full p-2 sm:w-1/2 md:w-1/3 lg:w-1/4"
               >
-                <li className="flex justify-between gap-x-6 py-5 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer p-4">
+                <li className="flex justify-between p-4 py-5 transition-shadow duration-200 bg-white rounded-lg shadow-sm cursor-pointer gap-x-6 hover:shadow-md">
                   <div className="flex gap-x-4">
                     <img
-                      className="h-12 w-12 flex-none rounded-full bg-gray-50"
+                      className="flex-none w-12 h-12 rounded-full bg-gray-50"
                       src={person.picture.large}
                       alt={`${person.name.first} ${person.name.last}`}
                     />
-                    <div className="min-w-0 flex-auto">
+                    <div className="flex-auto min-w-0">
                       <p className="text-sm font-semibold leading-6 text-gray-900">
                         {`${person.name.first} ${person.name.last}`}
                       </p>
-                      <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                      <p className="mt-1 text-xs leading-5 text-gray-500 truncate">
                         {person.email}
                       </p>
                     </div>

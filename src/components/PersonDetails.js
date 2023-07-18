@@ -6,15 +6,15 @@ import React from "react";
 
 const PersonDetails = React.memo(({ persons }) => {
   const { id } = useParams();
-  const person = persons[id];
+  const person = persons[id]; // persons is an object and each user has a unique uid generated to it
 
   return (
     <div className="p-6">
-      <div className="bg-white shadow rounded-lg p-6">
+      <div className="p-6 bg-white rounded-lg shadow">
         <div className="flex">
           <div className="w-1/3">
             <img
-              className="rounded-full w-64 mx-auto"
+              className="w-64 mx-auto rounded-full"
               src={person.picture.large}
               alt={`${person.name.first} ${person.name.last}`}
             />
@@ -22,7 +22,7 @@ const PersonDetails = React.memo(({ persons }) => {
           <div className="w-2/3 pl-6">
             <h2 className="text-2xl font-bold">{`${person.name.first} ${person.name.last}`}</h2>
             <p className="text-gray-500">{person.email}</p>
-            <ul className="text-xl list-inside list-disc mt-4 space-y-2">
+            <ul className="mt-4 space-y-2 text-xl list-disc list-inside">
               <li>
                 <BsFillPersonFill className="inline mr-2" />{" "}
                 {person.login.username}
