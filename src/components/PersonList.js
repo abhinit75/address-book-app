@@ -9,7 +9,6 @@ const PersonList = React.memo(({ persons }) => {
   const [filter, setFilter] = useState("All");
 
   // use Effect is triggered everytime either the persons list, search criteria or filter selection changes
-
   useEffect(() => {
     let filteredUsers = persons;
 

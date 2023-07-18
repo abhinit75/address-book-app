@@ -10,7 +10,6 @@ const Header = () => (
         <Link to="/" className="text-gray-900 hover:text-gray-600">
           Home
         </Link>
-        {/* Add more navigation links here */}
       </div>
     </div>
   </nav>

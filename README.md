@@ -11,6 +11,7 @@ This project was bootstrapped with the following Technologies and Tools:
 1. Clone the repository
 2. In the project directory, you can run: `npm start`. Runs the app in the development mode.
 3. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+4. You can run `npm test` to run the test suite.
 
 The page will reload when you make changes.
 
