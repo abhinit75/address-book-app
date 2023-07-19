@@ -15,6 +15,10 @@ This project was bootstrapped with the following Technologies and Tools:
 
 The page will reload when you make changes.
 
+### Project Diagram
+
+![Address Book App Diagram](image.png)
+
 ### Features
 
 - List of all people retrieved from random user API
