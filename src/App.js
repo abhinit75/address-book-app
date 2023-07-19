@@ -25,14 +25,10 @@ const App = () => {
             ...person,
             id: uuidv4(),
           }));
-          console.log("ADDED IDS");
-          console.log(personsWithId);
           const personsMap = await personsWithId.reduce((map, person) => {
             map[person.id] = person;
             return map;
           }, {});
-          console.log("THIS IS THE MAP");
-          console.log(personsMap);
           setPersons(personsMap);
           setLoading(false);
         } catch (err) {
