@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import api from "./server/api";
 import PersonList from "./components/PersonList";
 import PersonDetails from "./components/PersonDetails";
 import Header from "./components/Header";
 import { v4 as uuidv4 } from "uuid";
+import ThemeContext from "./ThemeContext";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const localData = localStorage.getItem("persons");
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     const fetchPersons = async () => {
@@ -51,14 +53,16 @@ const App = () => {
 
   return (
     <Router>
-      <Header />
-      <Routes>
-        <Route
-          path="/person/:id"
-          element={<PersonDetails persons={persons} />}
-        />
-        <Route path="/" element={<PersonList persons={persons} />} />
-      </Routes>
+      <div className={`App min-h-screen ${theme}`}>
+        <Header />
+        <Routes>
+          <Route
+            path="/person/:id"
+            element={<PersonDetails persons={persons} />}
+          />
+          <Route path="/" element={<PersonList persons={persons} />} />
+        </Routes>
+      </div>
     </Router>
   );
 };

@@ -48,28 +48,37 @@ const PersonList = React.memo(({ persons }) => {
 
   return (
     <div className="flex">
-      <div className="w-1/4 min-h-screen p-4 bg-gray-200">
-        <h2 className="mb-4 font-bold">Filters</h2>
+      <div className="w-1/4 min-h-screen p-4 bg-gray-200 dark:bg-gray-700">
+        <h2 className="mb-4 font-bold text-gray-800 dark:text-white">
+          Filters
+        </h2>
         <div className="mb-4">
-          <label htmlFor="country" className="block mb-2">
+          <label
+            htmlFor="country"
+            className="block mb-2 text-gray-800 dark:text-white"
+          >
             Country
           </label>
           <select
             name="country"
             id="country"
-            className="w-full p-2"
+            className="w-full p-2 dark:bg-gray-600 dark:text-white"
             onChange={(e) => setFilter(e.target.value)}
           >
             <option value="All">All</option>
             {countries.map((country, index) => (
-              <option key={index} value={country.toLowerCase()}>
+              <option
+                key={index}
+                value={country.toLowerCase()}
+                className="dark:bg-gray-600 dark:text-white"
+              >
                 {country}
               </option>
             ))}
           </select>
         </div>
       </div>
-      <div className="w-3/4 p-4">
+      <div className="w-3/4 p-4 bg-white dark:bg-gray-800">
         <div className="flex flex-wrap p-4">
           <input
             className="w-full px-3 py-2 mb-4 border rounded text-grey-darker"
@@ -78,7 +87,7 @@ const PersonList = React.memo(({ persons }) => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <div className="mb-4 text-gray-600">
+          <div className="mb-4 text-gray-600 dark:text-white">
             Contacts: {Object.keys(filteredPersons).length}
           </div>
           <ul role="list" className="w-full divide-y divide-gray-100">
@@ -88,27 +97,27 @@ const PersonList = React.memo(({ persons }) => {
                 to={`/person/${person.id}`}
                 className="w-full p-2 sm:w-1/2 md:w-1/3 lg:w-1/4"
               >
-                <li className="flex justify-between p-4 py-5 transition-shadow duration-200 bg-white rounded-lg shadow-sm cursor-pointer gap-x-6 hover:shadow-md">
+                <li className="flex justify-between p-4 py-5 transition-shadow duration-200 bg-white rounded-lg shadow-sm cursor-pointer gap-x-6 hover:shadow-md dark:bg-gray-700 dark:hover:bg-gray-600">
                   <div className="flex gap-x-4">
                     <img
-                      className="flex-none w-12 h-12 rounded-full bg-gray-50"
+                      className="flex-none w-12 h-12 rounded-full bg-gray-50 dark:bg-gray-600"
                       src={person.picture.large}
                       alt={`${person.name.first} ${person.name.last}`}
                     />
                     <div className="flex-auto min-w-0">
-                      <p className="text-sm font-semibold leading-6 text-gray-900">
+                      <p className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">
                         {`${person.name.first} ${person.name.last}`}
                       </p>
-                      <p className="mt-1 text-xs leading-5 text-gray-500 truncate">
+                      <p className="mt-1 text-xs leading-5 text-gray-500 truncate dark:text-gray-200">
                         {person.email}
                       </p>
                     </div>
                   </div>
                   <div className="hidden sm:flex sm:flex-col sm:items-end">
-                    <p className="text-sm leading-6 text-gray-900">
+                    <p className="text-sm leading-6 text-gray-900 dark:text-white">
                       {person.gender}
                     </p>
-                    <p className="mt-1 text-xs leading-5 text-gray-500">
+                    <p className="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-200">
                       Age: {person.dob.age}
                     </p>
                   </div>

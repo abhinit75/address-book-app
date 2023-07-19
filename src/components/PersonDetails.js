@@ -9,8 +9,8 @@ const PersonDetails = React.memo(({ persons }) => {
   const person = persons[id]; // persons is an object and each user has a unique uid generated to it
 
   return (
-    <div className="p-6">
-      <div className="p-6 bg-white rounded-lg shadow">
+    <div className="h-screen p-6 overflow-y-auto bg-white dark:bg-gray-900">
+      <div className="p-6 bg-white rounded-lg shadow dark:bg-gray-700 dark:text-white">
         <div className="flex">
           <div className="w-1/3">
             <img
