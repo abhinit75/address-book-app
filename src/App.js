@@ -46,11 +46,6 @@ const App = () => {
   if (loading) return <div>Loading...</div>; // replace with a loading animation
   if (error) return <div>Error: {error.message}</div>; // replace with a error component
 
-  const clearData = () => {
-    localStorage.removeItem("persons");
-    window.location.reload(); // or you can fetch the data again and update the state.
-  };
-
   return (
     <Router>
       <div className={`App min-h-screen ${theme}`}>

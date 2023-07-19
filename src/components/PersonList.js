@@ -28,7 +28,7 @@ const PersonList = React.memo(({ persons }) => {
           .includes(search.toLowerCase())
       );
     }
-
+    // setting all users as key-value pairs
     const filteredUsersObj = {};
     filteredUsers.forEach((user) => {
       filteredUsersObj[user.id] = user;
@@ -38,6 +38,7 @@ const PersonList = React.memo(({ persons }) => {
   }, [persons, search, filter]);
 
   useEffect(() => {
+    // spread operator to add all of the unique countries determined
     const uniqueCountries = [
       ...new Set(
         Object.values(persons).map((person) => person.location.country)
@@ -90,7 +91,7 @@ const PersonList = React.memo(({ persons }) => {
           <div className="mb-4 text-gray-600 dark:text-white">
             Contacts: {Object.keys(filteredPersons).length}
           </div>
-          <ul role="list" className="w-full divide-y divide-gray-100">
+          <ul className="w-full divide-y divide-gray-100">
             {Object.values(filteredPersons).map((person) => (
               <Link
                 key={person.id}
